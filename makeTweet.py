@@ -38,9 +38,9 @@ def tweet(text,image_ifile=None):
         else:
             api.update_with_media(status = text, filename =image_ifile)
     except:
-        return '[tweepy] Tweet connction cannot be built.'
+        return '[tweepy] API connction cannot be built.'
 
-    buf = '[tweepy] Tweet: ' + text
+    buf = '[tweepy] Tweet: =\n' + text
     if image_ifile != None:
         buf = '\n' + 'with: ' + image_ifile
     return buf

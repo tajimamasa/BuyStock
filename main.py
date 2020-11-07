@@ -12,19 +12,28 @@ Created in 20XX/XX/XX
 """
 import datetime
 import os
+import time
 
 ### my library
 from makeTweet import tweet
+from bitflyer import getTotalAssets
 
 class mainAPP():
     logdir = './log/'
-    
+    project = 'BuyStock'
     def __init__(self):
-        self.PrintLog('[mainAPP] BuyStock starts.')
-        #self.Tweet('BuyStock starts.')
+        self.PrintLog(f'[mainAPP] {self.project} starts.')
+        assets = getTotalAssets()
+        self.Tweet(f'{self.project} starts.\n' + assets)
+
+        while True:
+            time.sleep(100)
+            assets = getTotalAssets()
+            self.Tweet('[Regular report]\n' + assets)
         
     def Tweet(self,text,debug=0):
-        retText = tweet(text)
+        dt_now = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+        retText = tweet(f'[{dt_now}] {text}')
         self.PrintLog(retText)
         
     def PrintLog(self,text):
