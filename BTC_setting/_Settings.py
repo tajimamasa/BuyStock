@@ -22,16 +22,16 @@ BUY_YEN = 1000
 
 def info_tweepy():
     dic={
-        'consumer_key':'wDnhkTMmnLes8xR56IgJtr3bC',
-        'consumer_secret':'WiMqsXmqzOgeDrglzVYCNEqfoqWRToQGEVxZK297dI1PQ4QdDZ',
-        'access_token':'1324335665157349377-mqPodJGp8LLYU7vDod2HAHGosqU8mO',
-        'access_token_secret':'43fejRpJqJhk33KQE2NBZIGZo4wTggv9jm7e2cG46kMS2',
+        'consumer_key':'',
+        'consumer_secret':'',
+        'access_token':'',
+        'access_token_secret':'',
         }
     return dic
 
 def info_bitflyer():
     dic={
-        'api_key':'5pEGBK4QpXNX2mHbPdTwqH',
-        'api_secret':'ONloS+6gr1TZ9gPJYtWEbUiijJ+7e9NWiUumNGQHhsM='
+        'api_key':'',
+        'api_secret':''
         }
     return dic
