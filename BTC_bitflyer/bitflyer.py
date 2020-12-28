@@ -1,4 +1,5 @@
 
+
 # -*- coding:utf-8 -*-
 """
 Created in 20XX/XX/XX
@@ -23,13 +24,15 @@ class bitflyer():
     
     def __init__(self):
         pass
-    
+
+    ### 買い注文
     def BuyOrder(self,Assets):
         self.getBTCPriceOnly(Assets)
         Assets['JPY'] -= Settings.BUY_YEN
         Assets['BTC'] += Settings.BUY_YEN / Assets['Con']
         return False
-                
+
+    ### 売り注文
     def SellOrder(self,Assets):
         self.getBTCPriceOnly(Assets)
         BTC = Assets['BTC']
@@ -37,35 +40,35 @@ class bitflyer():
         Assets['BTC'] = 0
         return True
     
-
+    ### BTC の価格の取得
     def getBTCPriceOnly(self,Assets):
         try:
             price = self.api.ticker(product_code="BTC_JPY")
         except:
-            PrintLog('Error: Bitflyer API dosen\'t  work.')
+            PrintLog.printlog('Error: Bitflyer API dosen\'t  work.')
         else:
-            Assets['Con'] = price['best_ask']
+            Assets['Con'] = price['ltp']
 
+    ### BTCの板の取得
+    def getBTCBoard(self):
+        try:
+            board = self.api.board(product_code="BTC_JPY")
+        except:
+            PrintLog.printlog('Error: Bitflyer API dosen\'t  work.')
+            
+    def getBTCBalance(self):
+        try:
+            balances = self.api.getbalance(product_code="BTC_JPY")
+            #print(balances)
+            #jap = balances[0]
+            #btc = balances[1]
+        except:
+            PrintLog.printlog('Error: Bitflyer API dosen\'t  work.')
 
-    ''''
-    ### get assets
-    try:
-        balances = api.getbalance(product_code="BTC_JPY")
-
-    except:
-        return '[pybitflyer:getTotalAssets] '
-
-    ### en & BTC
-    jap = balances[0]
-    btc = balances[1]
-
-    text = f"{jap['currency_code']} : ¥{jap['amount']:.0f},  {btc['currency_code']} : {btc['amount']:f} (¥{btc['amount'] *price['best_ask']:.0f})\n"
-    text = text + f"total : ¥{jap['amount']+btc['amount'] *:.0f}"
-    return text
-
-
-
-if __name__=='__main__':
-    text = getTotalAssets()
-    print(text) 
-'''
+    def getBTCPrices(self):
+        try:
+            price = self.api.ticker(product_code="BTC_JPY")
+        except:
+            PrintLog.printlog('Error: Bitflyer API dosen\'t  work.')
+        else:
+            return price
