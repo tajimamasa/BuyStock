@@ -12,6 +12,8 @@ Created in 20XX/XX/XX
 
 """
 import pybitflyer
+import time
+import numpy as np
 
 from BTC_setting import Settings
 from BTC_Util import PrintLog
@@ -21,6 +23,19 @@ class bitflyer():
     APIdic = Settings.info_bitflyer()
     api = pybitflyer.API(api_key=APIdic['api_key'],
                          api_secret=APIdic['api_secret'])
+
+    ### データ取得のインターバル[s]
+    AcquisitionInterval = Settings.WHILE_INTERVAL_ACQUISITION
+    ### データ長さ
+    DataLength = Settings.ACQUISITION_LENGTH
+    ### データ取得の単位長
+    UnitLength = Settings.ACQUISITION_UNIT
+    ### 保存データ
+    SaveDataKey = Settings.SAVE_DATA_KEY
+    SaveKeyNum = len(SaveDataKey)-1
+    times = [str(i) for i in range(DataLength)]
+    values = np.zeros((DataLength,SaveKeyNum))
+    try_times = 0
     
     def __init__(self):
         pass
@@ -72,3 +87,24 @@ class bitflyer():
             PrintLog.printlog('Error: Bitflyer API dosen\'t  work.')
         else:
             return price
+
+    ### 配列に価格を保存
+    def renewBTCPrices(self):
+        for i in range(self.UnitLength):
+            # print(f'try times: {self.try_times}')
+            ### インターバル    
+            time.sleep(self.AcquisitionInterval)
+            ### データ取得
+            price = self.getBTCPrices()
+            ### タイムスタンプ
+            self.times[self.try_times] = price[self.SaveDataKey[0]]
+            ### 価格データの取得
+            for i in range(self.SaveKeyNum):
+                self.values[self.try_times,i] = price[self.SaveDataKey[i+1]]
+            ### 保存ユニットに達したら保存
+            if self.try_times == (self.DataLength - 1):
+                self.try_times = 0
+            else:
+                self.try_times += 1
+
+        
